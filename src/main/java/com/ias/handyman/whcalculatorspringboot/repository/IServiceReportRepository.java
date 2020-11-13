@@ -6,12 +6,15 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface IServiceReportRepository extends JpaRepository<ServiceReport,Long> {
 
     List<ServiceReport> findByIdTechnician(Long idTechnician);
 
-    List<ServiceReport> findByIdServiceAndIdTechnicianAndStartServiceAndEndService(Long idService, Long idTechnician, Date startService, Date endService);
+    Optional<ServiceReport> findByIdServiceAndIdTechnicianAndStartServiceAndEndService(Long idService, Long idTechnician, Date startService, Date endService);
+
+    Optional<ServiceReport> findByIdTechnicianAndStartServiceAndEndService(Long idTechnician, Date startService, Date endService);
 
 }

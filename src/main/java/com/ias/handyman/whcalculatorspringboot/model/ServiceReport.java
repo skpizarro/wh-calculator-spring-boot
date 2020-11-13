@@ -2,17 +2,23 @@ package com.ias.handyman.whcalculatorspringboot.model;
 
 
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.util.Date;
 
+//@ServiceReportDateTime // validador de la clase
 @Entity
 @Table(name = "tbl_service_report")
 public class ServiceReport {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idServiceReport;
+
     @NotNull(message = "La identificación del técnico es obligatoria")
     @Positive(message = "La identificación del técnico debe ser mayor que 0")
     private Long idTechnician;
@@ -23,13 +29,17 @@ public class ServiceReport {
     private Long idService;
 
     @Column(name = "start_service")
+    @DateTimeFormat(pattern = "yyyy-mm-dd hh:mm:ss")
     @Temporal(TemporalType.TIMESTAMP)
     @NotNull(message = "La fecha de inicio del servicio es obligatoria")
+    //@ServiceReportDateTime
     private Date startService;
 
     @Column(name = "end_service")
+    @DateTimeFormat(pattern = "yyyy-mm-dd hh:mm:ss")
     @Temporal(TemporalType.TIMESTAMP)
     @NotNull(message = "La fecha fin del servicio es obligatoria")
+    //@ServiceReportDateTime
     private Date endService;
 
     public ServiceReport() {

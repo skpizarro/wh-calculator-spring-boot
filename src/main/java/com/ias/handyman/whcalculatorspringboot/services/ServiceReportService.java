@@ -5,8 +5,10 @@ import com.ias.handyman.whcalculatorspringboot.repository.IServiceReportReposito
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.management.Query;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ServiceReportService implements IServiceReportService{
@@ -17,7 +19,6 @@ public class ServiceReportService implements IServiceReportService{
     // Generamos el reporte del servicio
     @Override
     public ServiceReport createServiceReport(ServiceReport serviceReport) {
-        System.out.println(serviceReport.getIdService());
         return iServiceReportRepository.save(serviceReport);
     }
 
@@ -27,9 +28,30 @@ public class ServiceReportService implements IServiceReportService{
         return iServiceReportRepository.findByIdTechnician(idTechnician);
     }
 
-    // Obtenemos un servicio específico
+
+
+
+    // Obtenemos un servicio específico que cumpla con todos los campos (para no repetir un mismo servicio)
     @Override
-    public List<ServiceReport> getServiceReport(Long idService, Long idTechnician, Date startService, Date endService) {
-        return iServiceReportRepository.findByIdServiceAndIdTechnicianAndStartServiceAndEndService(idService,idTechnician,startService,endService);
+    public ServiceReport getServiceReport(ServiceReport serviceReport) {
+       Optional <ServiceReport> s = iServiceReportRepository.findByIdServiceAndIdTechnicianAndStartServiceAndEndService(serviceReport.getIdService(),serviceReport.getIdTechnician(),serviceReport.getStartService(),serviceReport.getEndService());
+
+       if(!s.isPresent()){
+           System.out.println("No lo encontró");
+            return null;
+        }
+        return s.get();
+    }
+
+    // obtenemos el servicio que ya se reporto en la misma fecha por un técnico
+    @Override
+    public ServiceReport getServiceReportByTechAndDate(ServiceReport serviceReport) {
+        Optional <ServiceReport> s = iServiceReportRepository.findByIdTechnicianAndStartServiceAndEndService(serviceReport.getIdTechnician(),serviceReport.getStartService(),serviceReport.getEndService());
+
+        if(!s.isPresent()){
+            System.out.println("No lo encontró");
+            return null;
+        }
+        return s.get();
     }
 }
