@@ -8,7 +8,7 @@ public class ServiceReportValidator implements IServiceReportValidator {
     @Override
     public String dateValidator(ServiceReport serviceReport) {
 
-        if(serviceReport.getStartService().after(serviceReport.getEndService()) || serviceReport.getStartService().equals(serviceReport.getEndService())){
+        if(serviceReport.getStartService().isAfter(serviceReport.getEndService()) || serviceReport.getStartService().isEqual(serviceReport.getEndService())){
             return("La fecha de inicio del servicio no puede ser mayor o igual que la fecha de fin del servicio");
         }
 

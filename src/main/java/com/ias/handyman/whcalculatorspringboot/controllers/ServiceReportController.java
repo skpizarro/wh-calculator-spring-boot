@@ -18,6 +18,7 @@ import javax.validation.Valid;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@CrossOrigin(origins = "*", methods = {RequestMethod.GET,RequestMethod.POST})
 @RestController
 @RequestMapping(value = "/api/services")
 public class ServiceReportController {
@@ -54,8 +55,8 @@ public class ServiceReportController {
             List<ServiceReport> listServicesTech = iServiceReportService.getServicesByTechnician(serviceReport.getIdTechnician()); // Obtenemos todos los servicios que ha realizado el técnico
 
             // si la bandera devuelve true, entonces la fecha ya ha sido registrada en algún servicio y se lanza la excepción
-            boolean flag = listServicesTech.stream().anyMatch(service -> ((serviceReport.getStartService().after(service.getStartService()) && serviceReport.getStartService().before(service.getEndService()))
-                    || (serviceReport.getEndService().after(service.getStartService()) && serviceReport.getEndService().before(service.getEndService()))));
+            boolean flag = listServicesTech.stream().anyMatch(service -> ((serviceReport.getStartService().isAfter(service.getStartService()) && serviceReport.getStartService().isBefore(service.getEndService()))
+                    || (serviceReport.getEndService().isAfter(service.getStartService()) && serviceReport.getEndService().isBefore(service.getEndService()))));
             System.out.println(flag);
             res = iServiceReportValidator.hoursAvailableValidator(flag);
             if (res!=null) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, res);
@@ -99,6 +100,7 @@ public class ServiceReportController {
         df.format(serviceReport.getEndService());// Formateamos la fecha de fin del servicio;
          */
 
+
         ServiceReport serviceReportDB = iServiceReportService.createServiceReport(serviceReport);
         return ResponseEntity.ok(serviceReportDB);
     }
@@ -107,6 +109,7 @@ public class ServiceReportController {
     //public ResponseEntity<List<ServiceReport>> calculateW(){}
     @GetMapping(value = "/{id}")
     public ResponseEntity<List<ServiceReport>> getServicesByTechnician(@PathVariable("id") Long id){
+
         if(id !=null){
             List<ServiceReport> technicianServices =iServiceReportService.getServicesByTechnician(id);
             return ResponseEntity.ok(technicianServices);

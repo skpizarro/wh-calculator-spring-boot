@@ -2,12 +2,15 @@ package com.ias.handyman.whcalculatorspringboot.model;
 
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jdk.jfr.Timestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 //@ServiceReportDateTime // validador de la clase
@@ -30,17 +33,15 @@ public class ServiceReport {
 
     @Column(name = "start_service")
     @DateTimeFormat(pattern = "yyyy-mm-dd hh:mm:ss")
-    @Temporal(TemporalType.TIMESTAMP)
+    //@Temporal(TemporalType.TIMESTAMP)
     @NotNull(message = "La fecha de inicio del servicio es obligatoria")
-    //@ServiceReportDateTime
-    private Date startService;
+    private LocalDateTime startService;
 
     @Column(name = "end_service")
     @DateTimeFormat(pattern = "yyyy-mm-dd hh:mm:ss")
-    @Temporal(TemporalType.TIMESTAMP)
+    //@Temporal(TemporalType.TIMESTAMP)
     @NotNull(message = "La fecha fin del servicio es obligatoria")
-    //@ServiceReportDateTime
-    private Date endService;
+    private LocalDateTime endService;
 
     public ServiceReport() {
     }
@@ -49,11 +50,20 @@ public class ServiceReport {
         this.idTechnician = idTechnician;
     }
 
-    public ServiceReport(Long idTechnician, Long idService, Date startService, Date endService) {
+    public ServiceReport(Long idServiceReport, @NotNull(message = "La identificación del técnico es obligatoria") @Positive(message = "La identificación del técnico debe ser mayor que 0") Long idTechnician, @NotNull(message = "La identificación del servicio es obligatoria") @Positive(message = "La identificación del servicio debe ser mayor que 0") Long idService, @NotNull(message = "La fecha de inicio del servicio es obligatoria") LocalDateTime startService, @NotNull(message = "La fecha fin del servicio es obligatoria") LocalDateTime endService) {
+        this.idServiceReport = idServiceReport;
         this.idTechnician = idTechnician;
         this.idService = idService;
         this.startService = startService;
         this.endService = endService;
+    }
+
+    public Long getIdServiceReport() {
+        return idServiceReport;
+    }
+
+    public void setIdServiceReport(Long idServiceReport) {
+        this.idServiceReport = idServiceReport;
     }
 
     public Long getIdTechnician() {
@@ -72,21 +82,19 @@ public class ServiceReport {
         this.idService = idService;
     }
 
-    public Date getStartService() {
+    public LocalDateTime getStartService() {
         return startService;
     }
 
-    public void setStartService(Date startService) {
+    public void setStartService(LocalDateTime startService) {
         this.startService = startService;
     }
 
-    public Date getEndService() {
+    public LocalDateTime getEndService() {
         return endService;
     }
 
-    public void setEndService(Date endService) {
+    public void setEndService(LocalDateTime endService) {
         this.endService = endService;
     }
-
-
 }
