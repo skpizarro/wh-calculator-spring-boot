@@ -31,8 +31,6 @@ public class ServiceReportService implements IServiceReportService{
     }
 
 
-
-
     // Obtenemos un servicio específico que cumpla con todos los campos (para no repetir un mismo servicio)
     @Override
     public ServiceReport getServiceReport(ServiceReport serviceReport) {

@@ -4,17 +4,12 @@ import com.ias.handyman.whcalculatorspringboot.model.Calculate;
 import com.ias.handyman.whcalculatorspringboot.model.Extra;
 import com.ias.handyman.whcalculatorspringboot.model.ServiceReport;
 import com.ias.handyman.whcalculatorspringboot.model.WorkHours;
-import com.ias.handyman.whcalculatorspringboot.services.CalWorkHours;
-import org.apache.tomcat.jni.Local;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.IsoFields;
-import java.time.temporal.WeekFields;
-import java.util.Calendar;
-import java.util.Date;
+
 import java.util.List;
 
 @Service
@@ -114,7 +109,7 @@ public class CalculateMethods implements ICalculateMethods{
 
         });
 
-        //RESPUESTA FINAL DEL TOTAL DE CALCULOS
+        //RESPUESTA FINAL DEL TOTAL DE CÁLCULOS
         WorkHours totalWH = new WorkHours(
                 respCalculate.getWeekH(), respCalculate.getNormalH(),
                 respCalculate.getNightH(),respCalculate.getSundayH(), respCalculate.getNormalExtraH(),
@@ -135,27 +130,6 @@ public class CalculateMethods implements ICalculateMethods{
                   noF = LocalTime.of(20,0,0),
                   niF = LocalTime.from(noI),
                   niI = LocalTime.from(noF);
-
-
-        //Forma vieja
-        /**
-        Calendar noI = Calendar.getInstance(),
-                 noF= Calendar.getInstance(),
-                 niI = Calendar.getInstance(),
-                 niF= Calendar.getInstance();
-
-        noI.set(Calendar.HOUR_OF_DAY,7);
-        noI.set(Calendar.MINUTE,0);
-        noI.set(Calendar.SECOND,0);
-
-        noF.set(Calendar.HOUR_OF_DAY,20);
-        noF.set(Calendar.MINUTE,0);
-        noF.set(Calendar.SECOND,0);
-
-        niF = noI;
-        niI = noF;
-        */
-
 
         //Formateamos todo a horas
         float normI = formatToH(null,noI),
@@ -437,9 +411,9 @@ public class CalculateMethods implements ICalculateMethods{
     public Float formatToH(LocalDateTime dateTime,LocalTime time) {
 
         if(dateTime != null){
-            return  ((dateTime.getHour()) + (float)(dateTime.getMinute()/60) + (float)(dateTime.getSecond()/3600));
+            return  ((float)(dateTime.getHour()) + (float)(dateTime.getMinute()/60) + (float)(dateTime.getSecond()/3600));
         }
 
-        return  ((time.getHour()) + (float)(time.getMinute()/60) + (float)(time.getSecond()/3600));
+        return  ((float)(time.getHour()) + (float)(time.getMinute()/60) + (float)(time.getSecond()/3600));
     }
 }

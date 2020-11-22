@@ -11,9 +11,7 @@ public class ServiceReportValidator implements IServiceReportValidator {
         if(serviceReport.getStartService().isAfter(serviceReport.getEndService()) || serviceReport.getStartService().isEqual(serviceReport.getEndService())){
             return("La fecha de inicio del servicio no puede ser mayor o igual que la fecha de fin del servicio");
         }
-
         return null;
-
     }
 
     @Override
@@ -38,7 +36,6 @@ public class ServiceReportValidator implements IServiceReportValidator {
         if(flag==true){
             return("No es posible reportar un servicio en un mismo rango de tiempo en el que ya ha trabajado");
         }
-
         return null;
     }
 
